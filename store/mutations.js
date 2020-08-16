@@ -2,11 +2,12 @@ import Vue from "vue";
 
 export default {
   addTodo(state, payload) {
+    state.todos.push({ todo: payload.todo, id: payload.id });
+  },
+  setTodo(state, payload) {
     state.todos.push(payload);
   },
-  removeTodo(state, payload) {
-    // Vue.delete(state.todos, payload);
-    // OR
-    state.todos.splice(payload, 1);
+  removeTodo(state, index) {
+    Vue.delete(state.todos, index);
   }
 };
