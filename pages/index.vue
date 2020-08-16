@@ -28,27 +28,34 @@
 
 <script>
 export default {
+  // to Fix Warning
   data() {
     return {
-      todos: ["Do a Workout", "Coding", "Watch a Tutorial", "Learning"],
       todo: "",
     };
   },
+  computed: {
+    todos() {
+      return this.$store.state.todos;
+    },
+  },
   mounted() {
-    alert(this.$store.state.todos);
+    // Firstly Triggered when we go to the page
+    // alert(this.$store.state.todos);
   },
   methods: {
     sub() {
       if (this.todo) {
-        this.todos.push(this.todo);
+        // this.todos.push(this.todo);
         this.$store.commit("addTodo", this.todo);
         this.todo = "";
       }
     },
     removeTodo(index) {
-      this.todos.splice(index, 1);
+      // this.todos.splice(index, 1);
       // OR
       // this.$delete(this.todos, index)
+      this.$store.commit("removeTodo", index);
     },
   },
 };
