@@ -1,73 +1,61 @@
 <template>
   <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        NuxtTodo
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+    <div class="d-flex flex-row justify-content-center">
+
+      <div class="col-md-12">
+
+        <div class="card">
+          <div class="card-body">
+
+             <ul class="list-group">
+               <li class="list-group-item" v-for="(todos,index) in todos" :key="todos"><a href="#" @click="removeTodo(index)">{{todos}}</a></li>
+             </ul>
+
+              <form @submit.prevent="sub" class="mt-5">
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Add a Todo" v-model="todo">
+                  <button type="submit" class="btn btn-outline-primary mt-3">Add Todo</button>
+                </div>
+              </form>
+
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      todos: ["Do a Workout", "Coding", "Watch a Tutorial", "Learning"],
+      todo: "",
+    };
+  },
+  mounted() {
+    alert(this.$store.state.todos);
+  },
+  methods: {
+    sub() {
+      if (this.todo) {
+        this.todos.push(this.todo);
+        this.$store.commit("addTodo", this.todo);
+        this.todo = "";
+      }
+    },
+    removeTodo(index) {
+      this.todos.splice(index, 1);
+      // OR
+      // this.$delete(this.todos, index)
+    },
+  },
+};
 </script>
 
 <style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+a:hover {
+  text-decoration: none;
 }
 </style>
